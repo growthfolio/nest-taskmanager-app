@@ -1,5 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Task } from './task/entities/task.entity';
+import { TaskModule } from './task/task.module';
 
 @Module({
   imports: [
@@ -10,10 +12,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       username: 'root',
       password: 'root',
       database: 'db_taskmanager',
-      entities: [],
+      entities: [Task],
       synchronize: true,
+      timezone: 'Z',
     }),
-
+    TaskModule,
   ],
   controllers: [],
   providers: [],
