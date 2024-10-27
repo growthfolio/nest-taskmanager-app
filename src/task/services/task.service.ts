@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { ILike, Repository } from "typeorm";
 import { Task } from "../entities/task.entity";
 
 
@@ -30,6 +30,18 @@ export class TaskService {
         return task;
     }
     
+    async findByTitle(title: string): Promise<Task> {
+        return await this.taskRepository.findOne({
+            where: { 
+                title: ILike(`%${title}%`) //searching for a title that contains the string(is case INsensitive)
+             }
+        });
+    }
+    async findByStatus(status: string): Promise<Task[]> {
+        return await this.taskRepository.find({
+            where: { status }
+        });
+    }
 }
 
 

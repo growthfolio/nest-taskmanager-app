@@ -9,16 +9,16 @@ export class Task {
 
     @Column({name: "title", length: 100})
     @IsNotEmpty({message: "The field 'title' cannot be empty"})
-    titulo: string;
+    title: string;
 
     @Column({name: "description", length: 255})
-    descricao: string;
+    description: string;
 
     @Column({name: "status", length: 20})
     status: string;
 
     @Column({name: "creation_date"})
-    dataCriacao: Date;
+    criationDate: Date;
 
     // @UpdateDateColumn({name: "data_atualizacao"})
     // dataAtualizacao: Date;
