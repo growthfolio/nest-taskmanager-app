@@ -1,23 +1,23 @@
 import { IsNotEmpty } from "class-validator";
 import { Column, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
-@Entity({name: "tb_tarefas"})
-export class Tarefa {
+@Entity({name: "tb_tasks"})
+export class Task {
 
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({name: "titulo", length: 100})
-    @IsNotEmpty({message: "O campo 'titulo' é obrigatório"})
+    @Column({name: "title", length: 100})
+    @IsNotEmpty({message: "The field 'title' cannot be empty"})
     titulo: string;
 
-    @Column({name: "descricao", length: 255})
+    @Column({name: "description", length: 255})
     descricao: string;
 
     @Column({name: "status", length: 20})
     status: string;
 
-    @Column({name: "data_criacao"})
+    @Column({name: "creation_date"})
     dataCriacao: Date;
 
     // @UpdateDateColumn({name: "data_atualizacao"})
