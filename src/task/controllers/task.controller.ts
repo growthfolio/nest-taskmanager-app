@@ -1,4 +1,4 @@
-import { Controller, Get, HttpCode, HttpStatus, Param, ParseIntPipe } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Put } from "@nestjs/common";
 import { Task } from "../entities/task.entity";
 import { TaskService } from "../services/task.service";
 
@@ -29,4 +29,23 @@ export class TaskController {
     findByStatus(@Param("status") status: string): Promise<Task[]> {
         return this.taskService.findByStatus(status);
     }
+
+    @Post()
+    @HttpCode(HttpStatus.CREATED)
+    create(@Body() task: Task): Promise<Task> {
+        return this.taskService.create(task);
+    }
+
+    @Put()
+    @HttpCode(HttpStatus.OK)
+    update(@Body() task: Task): Promise<Task> {
+        return this.taskService.update(task);
+    }
+
+    @Delete("/:id")
+    @HttpCode(HttpStatus.NO_CONTENT)
+    delete(@Param("id", ParseIntPipe) id: number){
+        return this.taskService.delete(id);
+    }
+    
 }

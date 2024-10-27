@@ -1,5 +1,5 @@
 import { IsNotEmpty } from "class-validator";
-import { Column, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity({name: "tb_tasks"})
 export class Task {
@@ -14,12 +14,12 @@ export class Task {
     @Column({name: "description", length: 255})
     description: string;
 
-    @Column({name: "status", length: 20})
+    @Column({name: "status",default: 'pending', length: 20})
     status: string;
 
-    @Column({name: "creation_date"})
-    criationDate: Date;
+    @CreateDateColumn({name: "creation_date"})
+    creationDate: Date;
 
-    // @UpdateDateColumn({name: "data_atualizacao"})
-    // dataAtualizacao: Date;
+    @UpdateDateColumn({name: "last_update"})
+    lastUpdate: Date;
 }

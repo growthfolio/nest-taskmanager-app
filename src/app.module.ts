@@ -14,6 +14,7 @@ import { TaskModule } from './task/task.module';
       database: 'db_taskmanager',
       entities: [Task],
       synchronize: true,
+      timezone: 'Z',
     }),
     TaskModule,
   ],

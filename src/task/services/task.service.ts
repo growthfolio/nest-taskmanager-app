@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { ILike, Repository } from "typeorm";
+import { DeleteResult, ILike, Repository } from "typeorm";
 import { Task } from "../entities/task.entity";
 
 
@@ -37,10 +37,35 @@ export class TaskService {
              }
         });
     }
+
     async findByStatus(status: string): Promise<Task[]> {
         return await this.taskRepository.find({
             where: { status }
         });
+    }
+
+    async create(task: Task): Promise<Task> {
+        return await this.taskRepository.save(task);
+    }
+
+    async update(task: Task): Promise<Task> {
+        let taskExists = await this.findById(task.id);
+
+        if (!taskExists || !task.id) {
+            throw new HttpException('Task not found', HttpStatus.NOT_FOUND);
+        }
+
+        return await this.taskRepository.save(task);
+    }
+    
+    async delete(id: number): Promise<DeleteResult> {
+        let taskExists = await this.findById(id);
+
+        if (!taskExists) {
+            throw new HttpException('Task not found', HttpStatus.NOT_FOUND);
+        }
+
+        return await this.taskRepository.delete(id);
     }
 }
 
