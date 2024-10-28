@@ -5,6 +5,8 @@ import { TaskModule } from './task/task.module';
 import { ProjectModule } from './project/project.module';
 import { Project } from './project/entities/project.entity';
 import { AuthModule } from './auth/auth.module';
+import { User } from './user/entities/user.entity';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -15,13 +17,14 @@ import { AuthModule } from './auth/auth.module';
       username: 'root',
       password: 'root',
       database: 'db_taskmanager',
-      entities: [Task, Project],
+      entities: [Task, Project, User,],
       synchronize: true,
       timezone: 'Z',
     }),
     TaskModule,
     ProjectModule,
     AuthModule,
+    UserModule,
   ],
   controllers: [],
   providers: [],
