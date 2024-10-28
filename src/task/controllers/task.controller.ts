@@ -20,7 +20,7 @@ export class TaskController {
 
     @Get("/title/:title")
     @HttpCode(HttpStatus.OK)
-    findByTitle(@Param("title") title: string): Promise<Task> {
+    findByTitle(@Param("title") title: string): Promise<Task[]> {
         return this.taskService.findByTitle(title);
     }
 
