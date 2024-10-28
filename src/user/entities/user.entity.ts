@@ -15,7 +15,7 @@ export class User {
     @IsEmail()
     @IsNotEmpty()
     @Column({length: 255, nullable: false })
-    user: string
+    email: string
 
     @MinLength(8)
     @IsNotEmpty()
