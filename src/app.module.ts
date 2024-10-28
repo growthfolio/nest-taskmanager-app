@@ -4,6 +4,7 @@ import { Task } from './task/entities/task.entity';
 import { TaskModule } from './task/task.module';
 import { ProjectModule } from './project/project.module';
 import { Project } from './project/entities/project.entity';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { Project } from './project/entities/project.entity';
     }),
     TaskModule,
     ProjectModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
