@@ -21,9 +21,8 @@ export class Project {
 
     @UpdateDateColumn({name: "last_update"})
     lastUpdate: Date;
-    task: any;
     
     @OneToMany(() => Task, (task) => task.project)
-    tasks: Task[];
+    task: Task[] 
 
 }
