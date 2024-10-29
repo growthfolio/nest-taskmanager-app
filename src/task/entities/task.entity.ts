@@ -1,6 +1,7 @@
 import { IsNotEmpty } from "class-validator";
 import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { Project } from "../../project/entities/project.entity";
+import { User } from "../../user/entities/user.entity"
 
 @Entity({name: "tb_tasks"})
 export class Task {
@@ -29,4 +30,9 @@ export class Task {
     // onUpdate: "CASCADE"
 })
     project: Project;
+
+    @ManyToOne(() => User, (user) => user.task,{
+        onDelete: "CASCADE"
+    })
+    user: User;
 }

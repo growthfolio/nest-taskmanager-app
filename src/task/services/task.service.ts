@@ -18,7 +18,8 @@ export class TaskService {
     async findAll(): Promise<Task[]> {
         return await this.taskRepository.find({
             relations: {
-                project: true
+                project: true,
+                user: true
             }
         });
     }
@@ -30,7 +31,8 @@ export class TaskService {
                 id
             },
             relations: {
-                project: true
+                project: true,
+                user: true
             }
         });
 
@@ -47,7 +49,8 @@ export class TaskService {
                 title: ILike(`%${title}%`) //searching for a title that contains the string(is case INsensitive)
              },
              relations: {
-                project: true
+                project: true,
+                user: true
             }
         });
     }
@@ -58,7 +61,8 @@ export class TaskService {
                 status 
             },
             relations: {
-                project: true
+                project: true,
+                user: true
             }
         });
     }
