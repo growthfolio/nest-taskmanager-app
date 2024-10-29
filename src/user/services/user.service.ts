@@ -44,7 +44,7 @@ export class UserService {
         const userExists = await this.findByEmail(user.email);
 
         if (!userExists) {
-            user.password = await this.bcrypt.criptografarSenha(user.password);
+            user.password = await this.bcrypt.hashPassword(user.password);
             return this.userRepository.save(user);
         }
 
@@ -58,7 +58,7 @@ export class UserService {
         if (userExists && userExists.id !== user.id)
             throw new HttpException('Email already registered!', HttpStatus.BAD_REQUEST);
 
-        updateUser.password = await this.bcrypt.criptografarSenha(user.password);
+        updateUser.password = await this.bcrypt.hashPassword(user.password);
         return this.userRepository.save(updateUser);
     }
 }
