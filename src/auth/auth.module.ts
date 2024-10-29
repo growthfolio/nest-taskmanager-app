@@ -8,6 +8,8 @@ import { JwtModule } from "@nestjs/jwt";
 import { jwtConstants } from "./constants/constants";
 import { AuthService } from "./services/auth.service";
 import { LocalStrategy } from "./strategy/local.strategy";
+import { AuthController } from "./controllers/auth.controller";
+import { JwtStrategy } from "./strategy/jwt.strategy";
 
 
 @Module({
@@ -19,8 +21,8 @@ import { LocalStrategy } from "./strategy/local.strategy";
             signOptions: { expiresIn: '2h' },
         }),
     ],
-    providers: [Bcrypt, AuthService, LocalStrategy],
-    controllers: [],
+    providers: [Bcrypt, AuthService, LocalStrategy, JwtStrategy],
+    controllers: [AuthController],
     exports: [Bcrypt],
 })
 export class AuthModule { }

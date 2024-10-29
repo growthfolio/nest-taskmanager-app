@@ -13,9 +13,9 @@ export class AuthService{
         private bcrypt: Bcrypt
     ){ }
 
-    async validateUser(username: string, password: string): Promise<any>{
+    async validateUser(email: string, password: string): Promise<any>{
 
-        const userExists = await this.userService.findByEmail(username)
+        const userExists = await this.userService.findByEmail(email)
 
         if(!userExists)
             throw new HttpException('User not Found!', HttpStatus.NOT_FOUND)
@@ -33,14 +33,14 @@ export class AuthService{
 
     async login(userLogin: UserLogin){
 
-        const payload = { sub: userLogin.user }
+        const payload = { sub: userLogin.email }
 
-        const userExists = await this.userService.findByEmail(userLogin.user)
+        const userExists = await this.userService.findByEmail(userLogin.email)
 
         return{
             id: userExists.id,
             name: userExists.name,
-            user: userLogin.user,
+            email: userLogin.email,
             password: '',
             photo: userExists.photo,
             token: `Bearer ${this.jwtService.sign(payload)}`,
