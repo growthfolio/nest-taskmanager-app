@@ -2,84 +2,106 @@
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+# Nest Task Manager App
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Este projeto é uma API para gerenciamento de tarefas e projetos, construída com NestJS. A aplicação permite o gerenciamento de tarefas e projetos e oferece autenticação via JWT. O projeto possui rotas protegidas, acessíveis apenas por usuários autenticados, e está configurado para usar Swagger para documentação de API.
 
-## Description
+## Sumário
+- [Pré-requisitos](#pré-requisitos)
+- [Configuração](#configuração)
+- [Instalação](#instalação)
+- [Scripts disponíveis](#scripts-disponíveis)
+- [Autenticação e Autorização](#autenticação-e-autorização)
+- [Swagger e Documentação da API](#swagger-e-documentação-da-api)
+- [Estrutura do Projeto](#estrutura-do-projeto)
+- [Testes](#testes)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+---
 
-## Project setup
+### Pré-requisitos
+
+- **Node.js** (v14 ou superior)
+- **NestJS CLI** (instale com `npm i -g @nestjs/cli`)
+- Banco de dados MySQL (ou outro compatível com TypeORM)
+
+### Configuração
+
+Crie um arquivo `.env` na raiz do projeto seguindo o exemplo de `.env.example` abaixo:
+
+```plaintext
+# Exemplo de chave JWT
+JWT_SECRET='sua_chave_secreta'
+```
+<!--
+Além disso, configure as variáveis de ambiente necessárias para o banco de dados.
+-->
+Alem disso, Serão configuradas em breve as variaveis de ambiente necessarias para o banco de dados.
+
+### Instalação
+
+Clone o repositório e instale as dependências:
 
 ```bash
-$ npm install
+git clone https://github.com/felipemacedo1/nest-taskmanager-app.git
+cd nest-taskmanager-app
+npm install
 ```
 
-## Compile and run the project
+### Scripts Disponíveis
+
+- **`npm run start:dev`** - Inicia a aplicação em modo de desenvolvimento.
+- **`npm run test:e2e`** - Executa os testes end-to-end.
+- **`npm run lint`** - Linter para o código.
+- **`npm run format`** - Formata o código usando Prettier.
+
+### Autenticação e Autorização
+
+A autenticação no projeto é realizada via **JWT**. As rotas relacionadas a tarefas e projetos (`tasks` e `projects`) são protegidas e só podem ser acessadas por usuários autenticados. Abaixo está um exemplo de fluxo de autenticação:
+
+1. **Registro** - Endpoint para registro de um novo usuário.
+2. **Login** - Gera um token JWT, que deve ser incluído no header das requisições protegidas como `Bearer {token}`.
+3. **Validação do Token** - Realizada automaticamente nas rotas protegidas com `JwtStrategy`.
+
+### Swagger e Documentação da API
+
+A documentação da API pode ser acessada pelo Swagger:
+
+- Rota Swagger: `/swagger`
+
+Para obter uma coleção dos endpoints disponíveis, baixe a **Swagger Collection JSON** para uso em ferramentas como o Postman.
+
+### Estrutura do Projeto
+
+A estrutura básica do projeto é organizada conforme o padrão de módulos do NestJS:
+
+```plaintext
+src/
+├── auth/                    # Módulo de autenticação (JWT e estratégias de login)
+├── user/                    # Módulo de usuários (CRUD e validações)
+├── task/                    # Módulo de tarefas
+├── project/                 # Módulo de projetos
+├── main.ts                  # Ponto de entrada da aplicação
+└── ...                      # Outros módulos e arquivos de configuração
+test/
+└──                          # Testes e2e da aplicação 
+```
+
+### Testes
+
+Para executar os testes, utilize o comando:
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm run test:e2e
 ```
 
-## Run tests
+Para cobertura de testes, use:
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm run test:cov
 ```
 
-## Resources
+---
 
-Check out a few resources that may come in handy when working with NestJS:
+## Licença
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Este projeto está sob a licença UNLICENSED.
