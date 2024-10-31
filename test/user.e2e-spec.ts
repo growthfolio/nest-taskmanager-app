@@ -81,24 +81,22 @@ describe('Tests to Modules User and Auth (e2e)', () => {
     .expect(200)
   })
 
-  // TODO: Fix this test
-  //
-  // it("05 - Deve Atualizar um Usuário", async () => {
-  //   return request(app.getHttpServer())
-  //   .put('/users/update')
-  //   .set('Authorization', `${token}`)
-  //   .send({
-  //     id: userId,
-  //     name: 'Root Atualizado',
-  //     email: 'root@root.com',
-  //     password: 'rootroot',
-  //     photo: '-',
-  //   })
-  //   .expect(200)
-  //   .then( response => {
-  //     expect("Root Atualizado").toEqual(response.body.name);
-  //   })
-
-  // })
+  it("05 - Deve Atualizar um Usuário", async () => {
+    return request(app.getHttpServer())
+      .put('/users/update')
+      .set('Authorization', `${token}`)
+      .send({
+        id: userId,
+        name: 'Root Atualizado',
+        email: 'root@root.com',
+        password: 'rootroot',
+        photo: '-',
+      })
+      .expect(200)
+      .then(response => {
+        expect(response.body).toHaveProperty('name', 'Root Atualizado');
+      });
+      
+  });
 
 });
