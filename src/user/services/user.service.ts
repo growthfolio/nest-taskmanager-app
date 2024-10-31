@@ -53,12 +53,20 @@ export class UserService {
 
     async update(user: User): Promise<User> {
         const updateUser: User = await this.findById(user.id);
-        const userExists = await this.findByEmail(user.email);
+    
+        if (user.email && user.email !== updateUser.email) {
+            const userExists = await this.findByEmail(user.email);
+            if (userExists && userExists.id !== user.id) {
+                throw new HttpException('Email already registered!', HttpStatus.BAD_REQUEST);
+            }
+            updateUser.email = user.email;
+        }
+    
+        if (user.name) updateUser.name = user.name;
+        if (user.photo) updateUser.photo = user.photo;
+        if (user.password) updateUser.password = await this.bcrypt.hashPassword(user.password);
 
-        if (userExists && userExists.id !== user.id)
-            throw new HttpException('Email already registered!', HttpStatus.BAD_REQUEST);
-
-        updateUser.password = await this.bcrypt.hashPassword(user.password);
         return this.userRepository.save(updateUser);
     }
+    
 }
