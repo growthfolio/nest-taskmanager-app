@@ -4,7 +4,7 @@ import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-describe('Tests to Modules User and Auth (e2e)', () => {
+describe('User and Auth Modules Tests (e2e)', () => {
   
   let token: any;
   let userId: any;
@@ -32,7 +32,7 @@ describe('Tests to Modules User and Auth (e2e)', () => {
     await app.close();
   });
   
-  it("01 - Deve Cadastrar um novo Usuário", async () => {
+  it("01 - Should register a new user", async () => {
     const response = await request(app.getHttpServer())
       .post('/users/register')
       .send({
@@ -47,7 +47,7 @@ describe('Tests to Modules User and Auth (e2e)', () => {
 
   });
 
-  it("02 - Não Deve Cadastrar um Usuário Duplicado", async () => {
+  it("02 - Should not register a duplicate user", async () => {
     await request(app.getHttpServer())
       .post('/users/register')
       .send({
@@ -60,7 +60,7 @@ describe('Tests to Modules User and Auth (e2e)', () => {
 
   });
 
-  it("03 - Deve Autenticar o Usuário (Login)", async () => {
+  it("03 - Should authenticate the user (Login)", async () => {
     const response = await request(app.getHttpServer())
     .post("/users/login")
     .send({
@@ -73,7 +73,7 @@ describe('Tests to Modules User and Auth (e2e)', () => {
 
   })
 
-  it("04 - Deve Listar todos os Usuários", async () => {
+  it("04 - Should list all users", async () => {
     return request(app.getHttpServer())
     .get('/users/all')
     .set('Authorization', `${token}`)
@@ -81,20 +81,20 @@ describe('Tests to Modules User and Auth (e2e)', () => {
     .expect(200)
   })
 
-  it("05 - Deve Atualizar um Usuário", async () => {
+  it("05 - Should update a user", async () => {
     return request(app.getHttpServer())
       .put('/users/update')
       .set('Authorization', `${token}`)
       .send({
         id: userId,
-        name: 'Root Atualizado',
+        name: 'Updated Root',
         email: 'root@root.com',
         password: 'rootroot',
         photo: '-',
       })
       .expect(200)
       .then(response => {
-        expect(response.body).toHaveProperty('name', 'Root Atualizado');
+        expect(response.body).toHaveProperty('name', 'Updated Root');
       });
       
   });
