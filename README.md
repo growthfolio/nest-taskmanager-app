@@ -1,3 +1,4 @@
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
@@ -15,6 +16,7 @@ Este projeto é uma API para gerenciamento de tarefas e projetos, construída co
 - [Swagger e Documentação da API](#swagger-e-documentação-da-api)
 - [Estrutura do Projeto](#estrutura-do-projeto)
 - [Testes](#testes)
+- [Licença](#licença)
 
 ---
 
@@ -22,7 +24,7 @@ Este projeto é uma API para gerenciamento de tarefas e projetos, construída co
 
 - **Node.js** (v14 ou superior)
 - **NestJS CLI** (instale com `npm i -g @nestjs/cli`)
-- Banco de dados MySQL (ou outro compatível com TypeORM)
+- **Banco de dados MySQL** (ou outro compatível com TypeORM)
 
 ### Configuração
 
@@ -32,10 +34,18 @@ Crie um arquivo `.env` na raiz do projeto seguindo o exemplo de `.env.example` a
 # Exemplo de chave JWT
 JWT_SECRET='sua_chave_secreta'
 ```
-<!--
-Além disso, configure as variáveis de ambiente necessárias para o banco de dados.
--->
-Alem disso, Serão configuradas em breve as variaveis de ambiente necessarias para o banco de dados.
+
+Além disso, defina as variáveis de ambiente necessárias para o banco de dados, como no exemplo abaixo:
+
+```plaintext
+DB_HOST=localhost
+DB_PORT=3306
+DB_USERNAME=dev-user
+DB_PASSWORD=dev-pass
+DB_DATABASE=db_taskmanager
+DB_SYNCHRONIZE=true
+DB_TIMEZONE=Z
+```
 
 ### Instalação
 
@@ -49,9 +59,12 @@ npm install
 
 ### Scripts Disponíveis
 
-- **`npm run start:dev`** - Inicia a aplicação em modo de desenvolvimento.
+- **`npm run start:dev`** - Inicia a aplicação em modo de desenvolvimento com recarga automática.
+- **`npm run start`** - Inicia a aplicação em produção.
+- **`npm run start:prod`** - Inicia a aplicação em modo produção com o código pré-compilado.
+- **`npm run build`** - Compila o projeto para a pasta `dist`.
 - **`npm run test:e2e`** - Executa os testes end-to-end.
-- **`npm run lint`** - Linter para o código.
+- **`npm run lint`** - Analisa o código para identificar problemas de formatação.
 - **`npm run format`** - Formata o código usando Prettier.
 
 ### Autenticação e Autorização
@@ -67,6 +80,7 @@ A autenticação no projeto é realizada via **JWT**. As rotas relacionadas a ta
 A documentação da API pode ser acessada pelo Swagger:
 
 - Rota Swagger: `/swagger`
+- Voce pode encontrar a collection .JSON para realizar testes pelo Insomnia/Postman no diretorio 'docs'
 
 Para obter uma coleção dos endpoints disponíveis, baixe a **Swagger Collection JSON** para uso em ferramentas como o Postman.
 
@@ -101,7 +115,3 @@ npm run test:cov
 ```
 
 ---
-
-## Licença
-
-Este projeto está sob a licença UNLICENSED.
