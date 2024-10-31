@@ -2,9 +2,12 @@ import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPip
 import { Project } from "../entities/project.entity";
 import { ProjectService } from "../services/project.service";
 import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
+@ApiTags('Project')
 @UseGuards(JwtAuthGuard)
 @Controller("/projects")
+@ApiBearerAuth()
 export class ProjectController {
   constructor(private readonly projectService: ProjectService) { }
 

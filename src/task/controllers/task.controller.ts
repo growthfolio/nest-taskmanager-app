@@ -2,9 +2,12 @@ import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPip
 import { Task } from "../entities/task.entity";
 import { TaskService } from "../services/task.service";
 import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
+@ApiTags('Task')
 @UseGuards(JwtAuthGuard)
 @Controller("/tasks")
+@ApiBearerAuth()
 export class TaskController {
     constructor(private readonly taskService: TaskService) { }
     
