@@ -28,7 +28,6 @@ describe('Project Module (e2e)', () => {
     app.useGlobalPipes(new ValidationPipe());
     await app.init();
 
-    // Criando um usuário para autenticação nos testes
     await request(app.getHttpServer())
       .post('/users/register')
       .send({
@@ -39,7 +38,6 @@ describe('Project Module (e2e)', () => {
       })
       .expect(201);
 
-    // Authen
     const authResponse = await request(app.getHttpServer())
       .post('/users/login')
       .send({ email: 'test@project.com', password: 'password' })
