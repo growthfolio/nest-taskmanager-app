@@ -1,117 +1,184 @@
+# 📋 Nest Task Manager - API de Gerenciamento de Tarefas
 
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+## 🎯 Objetivo de Aprendizado
+Projeto desenvolvido para estudar **NestJS** e **arquitetura modular**, implementando uma API completa de gerenciamento de tarefas com autenticação JWT, validações, documentação Swagger e testes automatizados.
 
-# Nest Task Manager App
+## 🛠️ Tecnologias Utilizadas
+- **Framework:** NestJS (Node.js)
+- **Linguagem:** TypeScript
+- **Banco de Dados:** MySQL com TypeORM
+- **Autenticação:** JWT (JSON Web Tokens)
+- **Documentação:** Swagger/OpenAPI
+- **Validação:** Class Validator, Class Transformer
+- **Testes:** Jest (unit + e2e)
+- **Conceitos estudados:**
+  - Arquitetura modular do NestJS
+  - Dependency Injection
+  - Guards e Middlewares
+  - DTOs e validação de dados
+  - Relacionamentos de banco de dados
+  - Autenticação e autorização
 
-Este projeto é uma API para gerenciamento de tarefas e projetos, construída com NestJS. A aplicação permite o gerenciamento de tarefas e projetos e oferece autenticação via JWT. O projeto possui rotas protegidas, acessíveis apenas por usuários autenticados, e está configurado para usar Swagger para documentação de API.
+## 🚀 Demonstração
+```bash
+# Iniciar aplicação
+npm run start:dev
 
-## Sumário
-- [Pré-requisitos](#pré-requisitos)
-- [Configuração](#configuração)
-- [Instalação](#instalação)
-- [Scripts disponíveis](#scripts-disponíveis)
-- [Autenticação e Autorização](#autenticação-e-autorização)
-- [Swagger e Documentação da API](#swagger-e-documentação-da-api)
-- [Estrutura do Projeto](#estrutura-do-projeto)
-- [Testes](#testes)
-- [Licença](#licença)
+# Acessar Swagger
+http://localhost:4000/swagger
 
----
-
-### Pré-requisitos
-
-- **Node.js** (v14 ou superior)
-- **NestJS CLI** (instale com `npm i -g @nestjs/cli`)
-- **Banco de dados MySQL** (ou outro compatível com TypeORM)
-
-### Configuração
-
-Crie um arquivo `.env` na raiz do projeto seguindo o exemplo de `.env.example` abaixo:
-
-```plaintext
-# Exemplo de chave JWT
-JWT_SECRET='sua_chave_secreta'
+# Endpoints principais
+POST /auth/register    # Registro de usuário
+POST /auth/login       # Login e obtenção de JWT
+GET  /tasks           # Listar tarefas (protegido)
+POST /tasks           # Criar tarefa (protegido)
 ```
 
-Além disso, defina as variáveis de ambiente necessárias para o banco de dados, como no exemplo abaixo:
+## 💡 Principais Aprendizados
 
-```plaintext
+### 🏢 Arquitetura Modular NestJS
+- **Módulos:** Organização em módulos independentes (Auth, User, Task, Project)
+- **Controllers:** Gerenciamento de rotas e endpoints REST
+- **Services:** Lógica de negócio e regras da aplicação
+- **Providers:** Injeção de dependência e IoC container
+
+### 🔐 Autenticação e Segurança
+- **JWT Strategy:** Implementação de autenticação com tokens
+- **Guards:** Proteção de rotas com AuthGuard
+- **Passport:** Integração com estratégias de autenticação
+- **Bcrypt:** Hash de senhas para segurança
+
+### 📊 Banco de Dados e ORM
+- **TypeORM:** Mapeamento objeto-relacional
+- **Relacionamentos:** One-to-Many, Many-to-One
+- **Migrations:** Controle de versão do schema
+- **Entities:** Modelagem de dados com decorators
+
+## 🧠 Conceitos Técnicos Estudados
+
+### 1. **Dependency Injection**
+```typescript
+@Injectable()
+export class TaskService {
+  constructor(
+    @InjectRepository(Task)
+    private taskRepository: Repository<Task>,
+  ) {}
+  
+  async findAll(): Promise<Task[]> {
+    return this.taskRepository.find();
+  }
+}
+```
+
+### 2. **DTOs e Validação**
+```typescript
+export class CreateTaskDto {
+  @IsNotEmpty()
+  @IsString()
+  title: string;
+  
+  @IsOptional()
+  @IsString()
+  description?: string;
+  
+  @IsEnum(TaskStatus)
+  status: TaskStatus;
+}
+```
+
+### 3. **Guards e Autenticação**
+```typescript
+@Controller('tasks')
+@UseGuards(AuthGuard('jwt'))
+export class TaskController {
+  @Get()
+  @ApiBearerAuth()
+  async findAll(@GetUser() user: User): Promise<Task[]> {
+    return this.taskService.findAllByUser(user.id);
+  }
+}
+```
+
+## 📁 Estrutura do Projeto
+```
+src/
+├── auth/                    # Módulo de autenticação (JWT e estratégias)
+├── user/                    # Módulo de usuários (CRUD e validações)
+├── task/                    # Módulo de tarefas
+├── project/                 # Módulo de projetos
+├── main.ts                  # Ponto de entrada da aplicação
+└── ...                      # Outros módulos e configurações
+test/
+└── ...                      # Testes e2e da aplicação
+```
+
+## 🔧 Como Executar
+
+### Pré-requisitos
+- Node.js (v14 ou superior)
+- NestJS CLI (`npm i -g @nestjs/cli`)
+- MySQL
+
+### Passos
+1. Clone o repositório:
+```bash
+git clone <repo-url>
+cd nest-taskmanager-app
+```
+
+2. Instale as dependências:
+```bash
+npm install
+```
+
+3. Configure o arquivo `.env`:
+```env
+JWT_SECRET='sua_chave_secreta'
 DB_HOST=localhost
 DB_PORT=3306
 DB_USERNAME=dev-user
 DB_PASSWORD=dev-pass
 DB_DATABASE=db_taskmanager
-DB_SYNCHRONIZE=true
-DB_TIMEZONE=Z
 ```
 
-### Instalação
-
-Clone o repositório e instale as dependências:
-
+4. Execute a aplicação:
 ```bash
-git clone https://github.com/felipemacedo1/nest-taskmanager-app.git
-cd nest-taskmanager-app
-npm install
+npm run start:dev
 ```
 
-### Scripts Disponíveis
+## 🚧 Desafios Enfrentados
+1. **Arquitetura modular:** Organizar código em módulos coesos
+2. **Injeção de dependência:** Entender IoC container do NestJS
+3. **TypeORM:** Configurar relacionamentos e migrations
+4. **JWT:** Implementar autenticação stateless
+5. **Validação:** Usar decorators para validação de DTOs
 
-- **`npm run start:dev`** - Inicia a aplicação em modo de desenvolvimento com recarga automática.
-- **`npm run start`** - Inicia a aplicação em produção.
-- **`npm run start:prod`** - Inicia a aplicação em modo produção com o código pré-compilado.
-- **`npm run build`** - Compila o projeto para a pasta `dist`.
-- **`npm run test:e2e`** - Executa os testes end-to-end.
-- **`npm run lint`** - Analisa o código para identificar problemas de formatação.
-- **`npm run format`** - Formata o código usando Prettier.
+## 📚 Recursos Utilizados
+- [NestJS Documentation](https://docs.nestjs.com/)
+- [TypeORM Documentation](https://typeorm.io/)
+- [JWT.io](https://jwt.io/) - Entendimento de tokens JWT
+- [Swagger/OpenAPI](https://swagger.io/docs/)
+- [Class Validator](https://github.com/typestack/class-validator)
 
-### Autenticação e Autorização
+## 📈 Próximos Passos
+- [ ] Implementar sistema de notificações
+- [ ] Adicionar filtros avançados de busca
+- [ ] Criar dashboard com métricas
+- [ ] Implementar WebSockets para updates real-time
+- [ ] Adicionar sistema de permissões (RBAC)
+- [ ] Integrar com frontend React
 
-A autenticação no projeto é realizada via **JWT**. As rotas relacionadas a tarefas e projetos (`tasks` e `projects`) são protegidas e só podem ser acessadas por usuários autenticados. Abaixo está um exemplo de fluxo de autenticação:
-
-1. **Registro** - Endpoint para registro de um novo usuário.
-2. **Login** - Gera um token JWT, que deve ser incluído no header das requisições protegidas como `Bearer {token}`.
-3. **Validação do Token** - Realizada automaticamente nas rotas protegidas com `JwtStrategy`.
-
-### Swagger e Documentação da API
-
-A documentação da API pode ser acessada pelo Swagger:
-
-- Rota Swagger: `/swagger`
-- Voce pode encontrar a collection .JSON para realizar testes pelo Insomnia/Postman no diretorio 'docs'
-
-Para obter uma coleção dos endpoints disponíveis, baixe a **Swagger Collection JSON** para uso em ferramentas como o Postman.
-
-### Estrutura do Projeto
-
-A estrutura básica do projeto é organizada conforme o padrão de módulos do NestJS:
-
-```plaintext
-src/
-├── auth/                    # Módulo de autenticação (JWT e estratégias de login)
-├── user/                    # Módulo de usuários (CRUD e validações)
-├── task/                    # Módulo de tarefas
-├── project/                 # Módulo de projetos
-├── main.ts                  # Ponto de entrada da aplicação
-└── ...                      # Outros módulos e arquivos de configuração
-test/
-└──                          # Testes e2e da aplicação 
-```
-
-### Testes
-
-Para executar os testes, utilize o comando:
-
-```bash
-npm run test:e2e
-```
-
-Para cobertura de testes, use:
-
-```bash
-npm run test:cov
-```
+## 🔗 Projetos Relacionados
+- [React Task Manager](../react-taskmanager-app/) - Frontend da aplicação
+- [Front Task Manager](../front-task-manager/) - Interface HTML/CSS/JS
+- [Node Task Manager](../node-task-manager/) - Versão com Node.js puro
 
 ---
+
+**Desenvolvido por:** Felipe Macedo  
+**Contato:** contato.dev.macedo@gmail.com  
+**GitHub:** [FelipeMacedo](https://github.com/felipemacedo1)  
+**LinkedIn:** [felipemacedo1](https://linkedin.com/in/felipemacedo1)
+
+> 💡 **Reflexão:** Este projeto foi essencial para dominar NestJS e arquiteturas enterprise em Node.js. A experiência com dependency injection, guards e TypeORM estabeleceu bases sólidas para desenvolvimento backend moderno.
